@@ -3,6 +3,14 @@ Control unreal simulations with bluesky.
 
 ---
 
+## Installation
+
+```
+pip install -e .
+```
+
+---
+
 ## Example
 
 
