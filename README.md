@@ -14,7 +14,7 @@ pip install -e .
 ## Example
 
 
-This example requires the Unreal Robot Arm Simulation
+This example requires the robot_arm unreal simulation
 found here: https://github.com/gwbischof/robot_arm
 
 ### List all of the exposed Unreal properties.
