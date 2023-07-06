@@ -19,10 +19,10 @@ async def presets():
     return {"Presets": [{"Name": "dcm"}]}
 
 
-@app.get("/remote/presets/{preset_name}")
+@app.get("/remote/preset/{preset_name}")
 async def properties(preset_name: str):
     properties = {
-        "Presets": {
+        "Preset": {
             "Groups": [
                 {"ExposedProperties": [{"DisplayName": "bragg"}, {"DisplayName": "para"}, {"DisplayName": "perp"}]}
             ]
@@ -31,13 +31,20 @@ async def properties(preset_name: str):
     return properties
 
 
-@app.get("/remote/presets/{preset_name}/property/{property_name}")
+@app.get("/remote/preset/{preset_name}/property/{property_name}")
 async def get_value(preset_name: str, property_name: str):
-    properties = {"dcm": ["bragg", "para", "perp"]}
-    return properties.get(preset_name, [])
+    properties = {
+        'bragg':
+        {"PropertyValues": [{'PropertyValue': 1}]},
+        'para':
+        {"PropertyValues": [{'PropertyValue': 2}]},
+        'perp':
+        {"PropertyValues": [{'PropertyValue': 3}]},
+    }
+    return properties.get(property_name, [])
 
 
-@app.post("/remote/presets/{preset_name}/property/{property_name}")
+@app.post("/remote/preset/{preset_name}/property/{property_name}")
 async def set_value(preset_name: str, property_name: str, item: Any):
     print(item)
     return item
