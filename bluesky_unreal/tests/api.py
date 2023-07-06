@@ -1,3 +1,7 @@
+"""
+This api simulates the Unreal RemoteControl API.
+"""
+
 import contextlib
 import subprocess
 import sys
