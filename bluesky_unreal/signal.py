@@ -10,9 +10,6 @@ class UnrealSignal(Signal):
 
     Parameters
     ----------
-    preset_name: string
-        The name of the Unreal Remote Control Preset.
-        A Preset is like a group of Properties.
     name: string
         The name of the Unreal property
     server_address: string, optional
@@ -20,18 +17,22 @@ class UnrealSignal(Signal):
         Defaults to the Unreal Remote Control Plugin's default host and port.
     """
 
-    def __init__(self, *args, preset_name, server_address='http://localhost:30010', **kwargs):
-        super().__init__(*args, **kwargs)
-        self._client = UnrealClient(server_address)
-        self._preset_name = preset_name
+    def __init__(self, name, **kwargs):
+        server_address='http://localhost:30010'
 
-    def set(self, value, *arg, **kwargs):
+        metadata = {}
+        kwargs.setdefault("value", 0)
+
+        super().__init__(name=name, metadata=metadata, **kwargs)
+        self._client = UnrealClient(server_address)
+
+    def set(self, value, *args, **kwargs):
         self._readback = value
-        self._client.set_value(self._preset_name, self.name, value)
+        self._client.set_value(f"{self.name}", value)
         return NullStatus()
 
     def get(self, **kwargs):
-        return self._client.get_value(self._preset_name, self.name)
+        return self._client.get_value(f"{self.name}")
 
     def put(self, *args, **kwargs):
         self.set(*args, **kwargs).wait()
