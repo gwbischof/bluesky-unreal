@@ -12,19 +12,18 @@ class UnrealSignal(Signal):
     ----------
     name: string
         The name of the Unreal property
-    server_address: string, optional
+    server: string, optional
         The address of the Unreal Remote Control http server
         Defaults to the Unreal Remote Control Plugin's default host and port.
     """
 
-    def __init__(self, name, **kwargs):
-        server_address='http://localhost:30010'
+    def __init__(self, name, server='http://localhost:30010', **kwargs):
 
         metadata = {}
         kwargs.setdefault("value", 0)
 
         super().__init__(name=name, metadata=metadata, **kwargs)
-        self._client = UnrealClient(server_address)
+        self._client = UnrealClient(server)
 
     def set(self, value, *args, **kwargs):
         self._readback = value
