@@ -36,20 +36,20 @@ class UnrealClient():
         return exposed_properties
 
     def get_value(self, name):
-        if len(name.split('.')) != 2:
-            raise ValueError("GET_VALUE", f"Name must contain a '.' preset_name.property_name, name={name}")
-        preset_name = name.split('.')[0]
-        property_name = name.split('.')[1]
+        if len(name.split(':')) != 2:
+            raise ValueError("GET_VALUE", f"Name must contain a ':' preset_name:property_name, name={name}")
+        preset_name = name.split(':')[0]
+        property_name = name.split(':')[1]
         result = requests.get(f'{self.server_address}/remote/preset/{preset_name}/property/{property_name}')
         value = json.loads(result.content)['PropertyValues'][0]['PropertyValue']
         return value
 
     def set_value(self, name, value):
         HEADERS = {'Content-type': 'application/json'}
-        if len(name.split('.')) != 2:
-            raise ValueError("SET_VALUE", f"Name must contain a '.' preset_name.property_name, name={name}")
-        preset_name = name.split('.')[0]
-        property_name = name.split('.')[1]
+        if len(name.split(':')) != 2:
+            raise ValueError("SET_VALUE", f"Name must contain a ':' preset_name:property_name, name={name}")
+        preset_name = name.split(':')[0]
+        property_name = name.split(':')[1]
         result = requests.put(f'{self.server_address}/remote/preset/{preset_name}/property/{property_name}',
                               headers=HEADERS,
                               data=json.dumps({"PropertyValue": value,

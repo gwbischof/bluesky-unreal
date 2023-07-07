@@ -8,8 +8,8 @@ class UnrealMotor(Device, SoftPositioner):
     """
 
     # FormattedComponent doesn't prefix the parent name.
-    user_readback = FormattedComponent(UnrealSignal, 'dcm.bragg')
-    user_setpoint = FormattedComponent(UnrealSignal, 'dcm.bragg')
+    user_readback = FormattedComponent(UnrealSignal, 'dcm:bragg')
+    user_setpoint = FormattedComponent(UnrealSignal, 'dcm:bragg')
 
     def __init__(self, prefix, **kwargs):
         super().__init__(prefix, **kwargs)
