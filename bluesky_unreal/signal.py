@@ -1,8 +1,8 @@
-from ophyd import Component as Cpt
-from ophyd import Device, Signal
+from ophyd import Signal
 from ophyd.sim import NullStatus
 
 from bluesky_unreal import UnrealClient
+
 
 class UnrealSignal(Signal):
     """
@@ -17,13 +17,12 @@ class UnrealSignal(Signal):
         Defaults to the Unreal Remote Control Plugin's default host and port.
     """
 
-    def __init__(self, name, server='http://localhost:30010', **kwargs):
-
-        metadata = {}
+    def __init__(self, variable_name, *, name=None, server='http://localhost:30010', **kwargs):
         kwargs.setdefault("value", 0)
-
-        super().__init__(name=name, metadata=metadata, **kwargs)
         self._client = UnrealClient(server)
+        name = variable_name
+        print("NAME", name, "PVNAME", variable_name)
+        super().__init__(name=name, **kwargs)
 
     def set(self, value, *args, **kwargs):
         self._readback = value

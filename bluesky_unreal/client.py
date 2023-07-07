@@ -36,7 +36,6 @@ class UnrealClient():
         return exposed_properties
 
     def get_value(self, name):
-        print("GET_VALUE", name)
         if len(name.split('.')) != 2:
             raise ValueError("GET_VALUE", f"Name must contain a '.' preset_name.property_name, name={name}")
         preset_name = name.split('.')[0]
