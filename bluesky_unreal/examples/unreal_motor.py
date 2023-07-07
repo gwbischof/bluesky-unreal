@@ -6,15 +6,17 @@ TODO: Change this to markdown.
 """
 
 from bluesky import RunEngine
+from bluesky.plans import count
 from bluesky_unreal import UnrealMotor
 
-TEST_SERVER = "http://localhost:8000"
+SERVER = "http://localhost:8000"
+
 
 # Create a motor.
-motor = UnrealMotor("dcm:bragg", server=TEST_SERVER)
-
+motor = UnrealMotor("dcm:bragg", server=SERVER)
+motor.move(20)
 
 ## Use the device in a plan.
-# RE = RunEngine()
-# RE.subscribe(print)
-# RE(count([device1.bragg], num=3, delay=1))
+RE = RunEngine()
+RE.subscribe(print)
+RE(count([motor], num=3, delay=1))

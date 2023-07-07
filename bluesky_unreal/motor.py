@@ -1,8 +1,11 @@
 from ophyd import FormattedComponent, Device
 from ophyd.positioner import SoftPositioner
+from ophyd.sim import SynSignal
 from bluesky_unreal import UnrealClient, UnrealSignal
 
-TEST_SERVER='http://localhost:8000'
+
+#SERVER='http://localhost:8000'
+SERVER='http://localhost:30010'
 
 
 class UnrealMotor(Device, SoftPositioner):
@@ -22,20 +25,16 @@ class UnrealMotor(Device, SoftPositioner):
     """
 
     # FormattedComponent doesn't prefix the parent name.
-    user_readback = FormattedComponent(UnrealSignal, '{self.name}', server=TEST_SERVER)
-    user_setpoint = FormattedComponent(UnrealSignal, '{self.name}', server=TEST_SERVER)
+    user_readback = FormattedComponent(UnrealSignal, '{self.name}', server=SERVER, kind='normal')
+    user_setpoint = FormattedComponent(UnrealSignal, '{self.name}', server=SERVER, kind='normal')
+    user_offset = FormattedComponent(SynSignal, func=lambda: 1, kind='normal')
 
     def __init__(self, variable_name, *, name=None, server='http://localhost:30010', **kwargs):
         name=variable_name
         self.server = server
-        super().__init__(name=name, **kwargs)
         self._client = UnrealClient(server)
-
-        try:
-            init_pos = self._client.get_value(f"{self.name}")
-            self._position= init_pos
-        except Exception:
-            pass
+        init_pos = self._client.get_value(f"{name}")
+        super().__init__(name=name, init_pos=init_pos, **kwargs)
 
     def _setup_move(self, position, status):
          self._client.set_value(f"{self.name}", position)

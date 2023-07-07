@@ -21,11 +21,14 @@ class UnrealSignal(Signal):
     """
 
     def __init__(self, variable_name, *, name=None, server='http://localhost:30010', **kwargs):
-        kwargs.setdefault("value", 0)
         self._client = UnrealClient(server)
         name = variable_name
+        try:
+            kwargs.setdefault("value", self._client.get_value(name))
+        except Exception:
+            kwargs.setdefault("value", 0)
+
         super().__init__(name=name, **kwargs)
-        print("NAME", name, "PVNAME", variable_name)
 
     def set(self, value, *args, **kwargs):
         self._readback = value

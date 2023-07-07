@@ -18,16 +18,22 @@ class UnrealClient():
 
     def get_presets(self):
         result = requests.get(f'{self.server_address}/remote/presets')
+        if result.status_code != 200:
+            raise ConnectionError("Unable to read data from Unreal")
         result_dict = json.loads(result.content)
         return [preset['Name'] for preset in result_dict['Presets']]
 
     def get_properties(self, preset_name):
         result = requests.get(f'{self.server_address}/remote/preset/{preset_name}')
+        if result.status_code != 200:
+            raise ConnectionError("Unable to read data from Unreal")
         properties = json.loads(result.content)['Preset']['Groups'][0]['ExposedProperties']
         return [prop['DisplayName'] for prop in properties]
 
     def get_functions(self):
         result = requests.get(f'{self.server_address}/remote/assets')
+        if result.status_code != 200:
+            raise ConnectionError("Unable to read data from Unreal")
         return json.loads(result.content)
 
     def get_all_properties(self):
@@ -41,6 +47,8 @@ class UnrealClient():
         preset_name = name.split(':')[0]
         property_name = name.split(':')[1]
         result = requests.get(f'{self.server_address}/remote/preset/{preset_name}/property/{property_name}')
+        if result.status_code != 200:
+            raise ConnectionError("Unable to read data from Unreal")
         value = json.loads(result.content)['PropertyValues'][0]['PropertyValue']
         return value
 
@@ -54,3 +62,5 @@ class UnrealClient():
                               headers=HEADERS,
                               data=json.dumps({"PropertyValue": value,
                                                "GenerateTransaction": 1}))
+        if result.status_code != 200:
+            raise ConnectionError("Unable to read data from Unreal")
