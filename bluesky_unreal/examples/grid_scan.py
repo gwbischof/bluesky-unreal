@@ -16,10 +16,10 @@ client = UnrealClient()
 client.get_all_properties()
 
 # Create UnrealSignals for the properties that we want to access.
-motor1 = UnrealSignal(preset_name="NewRemoteControlPreset", name='motor1')
-motor2 = UnrealSignal(preset_name="NewRemoteControlPreset", name='motor2')
-motor3 = UnrealSignal(preset_name="NewRemoteControlPreset", name='motor3')
-motor4 = UnrealSignal(preset_name="NewRemoteControlPreset", name='motor4')
+motor1 = UnrealSignal(preset_name="NewRemoteControlPreset", name="motor1")
+motor2 = UnrealSignal(preset_name="NewRemoteControlPreset", name="motor2")
+motor3 = UnrealSignal(preset_name="NewRemoteControlPreset", name="motor3")
+motor4 = UnrealSignal(preset_name="NewRemoteControlPreset", name="motor4")
 
 # Run a grid scan with the Robot Arm.
 RE = RunEngine({})
