@@ -1,17 +1,19 @@
 """
-Trying some different things with the unreal signal.
+How to use an UnrealSignal.
 
 tests/api.py can be used to simulate the unreal remote control api.
+TODO: Change this to markdown.
 """
+
 from bluesky import RunEngine
 from bluesky.plans import count
 from ophyd import Device, Component, FormattedComponent
 from bluesky_unreal import UnrealSignal
+
 TEST_SERVER='http://localhost:8000'
 
-## Make a signal.
 
-# Signals require a name if they are not a component.
+a# Create a signal.
 signal = UnrealSignal('dcm:bragg', server=TEST_SERVER)
 
 # Get a dictionary of information about the signal.
@@ -22,7 +24,7 @@ print("signal.get()", signal.get())
 
 
 ## Use the signal in a device.
-class A(Device):
+class Dev(Device):
 
     # When a signal is a component you dont pass a name.
     # The second argument of a Component is the Suffix.
@@ -34,7 +36,8 @@ class A(Device):
     #signal3 = Component(UnrealSignal, name='signal3_arg')
     #signal4 = FormattedComponent(UnrealSignal, name='signal4_arg')
 
-device1 = A(name='device1')
+device1 = Dev(name='device1')
+print("device1.read()", device.read())
 print("Signals", device1._signals)
 
 ## Use the device in a plan.
